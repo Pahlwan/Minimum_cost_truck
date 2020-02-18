@@ -7,6 +7,7 @@ We define Minimum cost function.
 
 **************************************************************************************************************************
 Minimum cost function :  (Total pay factor)*1/(Reamaining time factor)
+
 Total pay factor = If truck will selected how much company pay to truck owner after current cycle 
 
 Formula: 
