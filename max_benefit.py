@@ -49,7 +49,7 @@ def my_own_trucks():
     pass
 
 truck_list=[]
-
+# Sample data
 truck_list.append(Truck("l1",30,3000,2500,[datetime(2020,4,7),datetime(2020,5,6)]))
 truck_list.append(Truck("l2",25,2400,2400,[datetime(2020,4,10),datetime(2020,5,9)]))
 truck_list.append(Truck("l3",34,2700,2300,[datetime(2020,4,10),datetime(2020,5,9)]))
@@ -62,13 +62,22 @@ while(1):
     print("3: For exit")
     print("   \nPRESS 1 OR 2 OR 3")
     i=int(input())
-    if i==1:
+    if i==2:
         truck_list=[]
         
-        print("Enter truck detail fill all details")
-        for c in range(int(input("Input number of trucks"))):
-            pass
-        
+        print("Enter truck details 'PLZ FILL' all details")
+        for c in range(int(input("Input number of trucks : "))):
+            print("\n"+"Enter Truck Detail".center(60,'-'))
+            print("\n")
+            name=input("Truck number or name : ")
+            rate=int(input("Rate per km : "))
+            minimum_run=int(input("Mininumum run every month :"))
+            already_ran=int(input("How much km's already used :"))
+            cycle=list(map(lambda x:datetime.strptime(x,'%Y/%m/%d'),input("Enter cycle in Format YYYY/MM/DD-YYYY/MM/DD").strip().split('-')))
+            tepm_t=Truck(name,rate,minimum_run,already_ran,cycle)
+            truck_list.append(tepm_t)
+            print()
+            
     list1=min_cost(truck_list,600)
 
     print("Cost efficiency for each truck :")
