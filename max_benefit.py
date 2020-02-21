@@ -46,7 +46,36 @@ def min_cost(truck_list,distance):
     return cost_efficiency
 
 def my_own_trucks():
-    pass
+    truck_list=[]
+        
+    print("Enter truck details 'PLZ FILL' all details")
+    for _ in range(int(input("Input number of trucks : "))):
+        print("\n"+"Enter Truck Detail".center(60,'-'))
+        print("\n")
+        name=input("Truck number or name : ")
+        rate=int(input("Rate per km : "))
+        minimum_run=int(input("Mininumum run every month :"))
+        already_ran=int(input("How much km's already used :"))
+        while(1):
+            try:
+                cycle=list(map(lambda x:datetime.strptime(x,'%Y/%m/%d'),input("Enter cycle in Format YYYY/MM/DD-YYYY/MM/DD : ").strip().split('-')))
+                if ((cycle[1]-cycle[0]).days<=0):
+                    print("Invailid cycle try again input date again")
+                    continue
+            except:
+                print("Invailid date format input date again")
+                continue
+
+            else:
+                break
+            
+           
+           
+
+        tepm_t=Truck(name,rate,minimum_run,already_ran,cycle)
+        truck_list.append(tepm_t)
+        print()
+    return truck_list
 
 truck_list=[]
 # Sample data
@@ -62,22 +91,15 @@ while(1):
     print("3: For exit")
     print("   \nPRESS 1 OR 2 OR 3")
     i=int(input())
+
+    # Custom input
     if i==2:
-        truck_list=[]
+        truck_list=my_own_trucks()
+        print("".center(80,"-"))
+    if i==3:
+        exit()   
         
-        print("Enter truck details 'PLZ FILL' all details")
-        for c in range(int(input("Input number of trucks : "))):
-            print("\n"+"Enter Truck Detail".center(60,'-'))
-            print("\n")
-            name=input("Truck number or name : ")
-            rate=int(input("Rate per km : "))
-            minimum_run=int(input("Mininumum run every month :"))
-            already_ran=int(input("How much km's already used :"))
-            cycle=list(map(lambda x:datetime.strptime(x,'%Y/%m/%d'),input("Enter cycle in Format YYYY/MM/DD-YYYY/MM/DD").strip().split('-')))
-            tepm_t=Truck(name,rate,minimum_run,already_ran,cycle)
-            truck_list.append(tepm_t)
-            print()
-            
+        
     list1=min_cost(truck_list,600)
 
     print("Cost efficiency for each truck :")
