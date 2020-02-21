@@ -1,19 +1,23 @@
 import pandas as pd 
 from datetime import datetime,timedelta
 
+status_options=["LOADIG","WAITING","UNLOADING"]
+
 class Truck:
-    def __init__(self,name,rate,minimum_run,already_ran,cycle):
+    def __init__(self,name,rate,minimum_run,already_ran,cycle,status="Waiting"):
         self.name=name
         self.rate=rate
         self.minmum_run=minimum_run
         self.cycle=cycle
         self.alread_ran=already_ran
+        self.status=status
     
     def days_reamining_in_cycle(self):
         return (self.cycle[1]-datetime(2020,4,27))
 
+
 # This calculate eficiency for each truck
-def min_cost(truck_list,distance):
+def min_cost(truck_list,asssignment_distance,status_consideration=False):
     
     # pay_after_pick_list=[] 
     # cost_func=[]
@@ -36,16 +40,30 @@ def min_cost(truck_list,distance):
     #     min_cost_func.append(cost_func[i]*pay_after_pick_list[i])
 
     # return min_cost_func
-
+    if status_consideration==True:
+        for t in truck_list:
+            if t.status=="Unloading":
+                truck_list.remove(t)
+    
     cost_efficiency=[]
     for i in truck_list:
-        if (i.minmum_run-i.alread_ran)!=0:
+
+        total_run_after_assignment=i.alread_ran+asssignment_distance
+
+        if total_run_after_assignment>i.minmum_run and (i.minmum_run-i.alread_ran)!=0:
+            cost_efficiency.append(((i.rate*i.minmum_run)+(i.rate*120/100)*(total_run_after_assignment-i.minmum_run))*((i.minmum_run-i.alread_ran)/i.minmum_run)*i.days_reamining_in_cycle().days)
+
+        elif (i.minmum_run-i.alread_ran)!=0 and total_run_after_assignment<=i.minmum_run:
             # Main formula
             cost_efficiency.append((i.rate*i.minmum_run)*((i.minmum_run-i.alread_ran)/i.minmum_run)*i.days_reamining_in_cycle().days)
+
         else:
             cost_efficiency.append((i.rate*i.minmum_run)*(1)*i.days_reamining_in_cycle().days)
+
     return cost_efficiency
 
+
+# Create Own truck list
 def my_own_trucks():
     truck_list=[]
         
@@ -69,19 +87,18 @@ def my_own_trucks():
 
             else:
                 break
-            
+        status=input().upper   
            
-           
-
-        tepm_t=Truck(name,rate,minimum_run,already_ran,cycle)
+        tepm_t=Truck(name,rate,minimum_run,already_ran,cycle,status)
         truck_list.append(tepm_t)
         print()
     return truck_list
 
 truck_list=[]
+
 # Sample data
 truck_list.append(Truck("l1",30,3000,2500,[datetime(2020,4,7),datetime(2020,5,6)]))
-truck_list.append(Truck("l2",25,2400,2400,[datetime(2020,4,10),datetime(2020,5,9)]))
+truck_list.append(Truck("l2",25,2400,2400,[datetime(2020,4,10),datetime(2020,5,9)],"Unloading"))
 truck_list.append(Truck("l3",34,2700,2300,[datetime(2020,4,10),datetime(2020,5,9)]))
 truck_list.append(Truck("l4",25,2400,100,[datetime(2020,4,26),datetime(2020,5,25)]))
 truck_list.append(Truck("l5",30,2800,2000,[datetime(2020,4,1),datetime(2020,4,30)]))
@@ -97,13 +114,15 @@ while(1):
     if i==2:
         truck_list=my_own_trucks()
         print("".center(80,"-"))
+
     if i==3:
         print("Sad! Plzzz try me once")
         exit()   
         
         
-    list1=min_cost(truck_list,600)
+    list1=min_cost(truck_list,600,True)
 
+    # Printing efficiency of each truck
     print("Cost efficiency for each truck :")
     for ind,i in enumerate(list1):
         print("\t{} : {:.2f}".format(truck_list[ind].name,i))
@@ -111,7 +130,7 @@ while(1):
     print("\n")
 
     print("Best pick for us is : ",end="")   
-    # print(list1)
+   
     #next line is important
     print(truck_list[list1.index(min(list1))].name)
 
@@ -120,7 +139,6 @@ while(1):
         print("Thank you for using me")
         exit()
 
-    # dif=t1.days_reamining_in_cycle().days
 
 
 
