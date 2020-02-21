@@ -12,7 +12,7 @@ class Truck:
     def days_reamining_in_cycle(self):
         return (self.cycle[1]-datetime(2020,4,27))
 
-
+# This calculate eficiency for each truck
 def min_cost(truck_list,distance):
     
     # pay_after_pick_list=[] 
@@ -40,6 +40,7 @@ def min_cost(truck_list,distance):
     cost_efficiency=[]
     for i in truck_list:
         if (i.minmum_run-i.alread_ran)!=0:
+            # Main formula
             cost_efficiency.append((i.rate*i.minmum_run)*((i.minmum_run-i.alread_ran)/i.minmum_run)*i.days_reamining_in_cycle().days)
         else:
             cost_efficiency.append((i.rate*i.minmum_run)*(1)*i.days_reamining_in_cycle().days)
@@ -97,6 +98,7 @@ while(1):
         truck_list=my_own_trucks()
         print("".center(80,"-"))
     if i==3:
+        print("Sad! Plzzz try me once")
         exit()   
         
         
@@ -115,6 +117,7 @@ while(1):
 
     print()
     if(input("Test more Y/N").upper()=="N"):
+        print("Thank you for using me")
         exit()
 
     # dif=t1.days_reamining_in_cycle().days
