@@ -1,4 +1,4 @@
-import pandas as pd 
+
 from datetime import datetime,timedelta
 
 status_options=["LOADIG","WAITING","UNLOADING"]
@@ -37,7 +37,7 @@ def min_cost(truck_list,asssignment_distance,to_day,status_consideration=False):
 
         elif total_run_after_assignment>i.minmum_run and (i.minmum_run-i.alread_ran)==0:
             cost_efficiency.append(((i.rate*i.minmum_run)+(i.rate*120/100)*(total_run_after_assignment-i.minmum_run))*(1)*i.days_reamining_in_cycle(to_day).days)
-            
+
         elif (i.minmum_run-i.alread_ran)!=0 and total_run_after_assignment<=i.minmum_run:
             # Main formula
             cost_efficiency.append((i.rate*i.minmum_run)*((i.minmum_run-i.alread_ran)/i.minmum_run)*i.days_reamining_in_cycle(to_day).days)
